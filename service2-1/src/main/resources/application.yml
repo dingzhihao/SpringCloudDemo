@@ -1,0 +1,77 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: service2
+  cloud:
+    consul:
+      host: locahost
+      port: 8500
+      discovery:
+        serviceName: ${spring.application.name}
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.8.100:3306?serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: 123456
+    # Druid配置
+    type: com.alibaba.druid.pool.DruidDataSource
+    # 初始化连接大小
+    initialSize: 10
+    # 最小空闲连接数
+    minIdle: 5
+    # 最大连接数
+    maxActive: 20
+    # 连接时最大等待时间（毫秒）
+    maxWait: 60000
+    # 连接保持空闲而不被驱逐的最小时间（毫秒）
+    minEvictableIdleTimeMillis: 300000
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接（毫秒）
+    timeBetweenEvictionRunsMillis: 60000
+    # 申请连接的时候检测，建议配置为true，不影响性能
+    testWhileIdle: true
+    # 获取连接时执行检测，建议配置为false，影响性能
+    testOnBorrow: false
+    # 归还连接时执行检测，建议配置为false，影响性能
+    testOnReturn: false
+    # 监控统计拦截Filter
+    filters: stat,wall,log4j2
+  redis:
+    cluster:
+      nodes: 192.168.8.100:7000,192.168.8.100:7001,192.168.8.100:7002,192.168.8.100:7003,192.168.8.100:7004,192.168.8.100:7005
+    password: 123456
+  boot:
+    admin:
+      client:
+        url: http://localhost:8001
+        username: "admin"
+        password: "admin"
+
+  # 开启热部署
+  devtools:
+    restart:
+      enabled: true
+
+rocketmq:
+  name-server: 192.168.8.100:9876;192.168.8.101:9876
+  producer:
+    group: RocketMQGroup
+
+feign:
+  hystrix:
+    enabled: true
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.hao.entity
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        exclude: configprops
+  endpoint:
+    health:
+      show-details: always

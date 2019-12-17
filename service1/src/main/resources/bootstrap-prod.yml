@@ -1,0 +1,31 @@
+server:
+  port: 8081
+spring:
+  profiles: prod
+  application:
+    name: service1
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        serviceName: ${spring.application.name}
+      config:
+        enabled: true
+        format: yaml
+        prefix: config
+        default-context: application
+        profile-separator: ','
+        data-key: data
+  # 开启热部署
+  devtools:
+    restart:
+      enabled: true
+
+feign:
+  hystrix:
+    enabled: true
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.hao.entity

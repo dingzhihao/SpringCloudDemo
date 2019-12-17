@@ -1,0 +1,20 @@
+server:
+  port: 8001
+
+spring:
+  application:
+    name: admin
+  security:
+    user:
+      name: "admin"
+      password: "admin"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        exclude: configprops
+  endpoint:
+    health:
+      show-details: always
